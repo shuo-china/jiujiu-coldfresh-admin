@@ -3,15 +3,28 @@
     <el-card class="flex-1 overflow-auto" shadow="never">
       <div class="flex items-end justify-center gap-x-10">
         <el-scrollbar>
-          <el-tabs v-loading="configGroupListLoading" v-model="currentConfigGroupId" class="flex-1">
-            <el-tab-pane v-for="item in configGroupList" :label="item.name" :name="item.id">
+          <el-tabs
+            v-loading="configGroupListLoading"
+            v-model="currentConfigGroupId"
+            class="flex-1"
+          >
+            <el-tab-pane
+              v-for="item in configGroupList"
+              :label="item.name"
+              :name="item.id"
+            >
               <template #label>{{ item.name }} {{ item.key }}</template>
             </el-tab-pane>
           </el-tabs>
         </el-scrollbar>
       </div>
       <div v-if="!configGroupListLoading" class="mx-auto max-w-[800px]">
-        <el-table v-loading="configItemListLoading" :data="configItemList" :show-header="false" size="large">
+        <el-table
+          v-loading="configItemListLoading"
+          :data="configItemList"
+          :show-header="false"
+          size="large"
+        >
           <el-table-column :width="130">
             <template #default="{ row }">
               <div class="flex flex-col items-start gap-y-0.5">
@@ -21,32 +34,76 @@
           </el-table-column>
           <el-table-column>
             <template #default="{ row }">
-              <el-input v-if="row.type === 'text'" v-model="row.value"
-                @change="() => handleUpdateConfigItemValue(row)" />
-              <el-input v-else-if="row.type === 'textarea'" type="textarea" v-model="row.value"
-                @change="() => handleUpdateConfigItemValue(row)" />
-              <el-input-tag v-else-if="row.type === 'tags'" v-model="row.value"
-                @change="() => handleUpdateConfigItemValue(row)" />
-              <el-input-number v-else-if="row.type === 'number'" v-model="row.value"
-                @change="() => handleUpdateConfigItemValue(row)" />
-              <el-select v-else-if="row.type === 'select'" v-model="row.value"
-                @change="() => handleUpdateConfigItemValue(row)" :options="row.options" />
-              <el-checkbox-group v-else-if="row.type === 'checkbox'" v-model="row.value"
-                @change="() => handleUpdateConfigItemValue(row)" :options="row.options" />
-              <el-switch v-else-if="row.type === 'switch'" v-model="row.value"
-                @change="() => handleUpdateConfigItemValue(row)" />
-              <pro-upload v-else-if="row.type === 'file'" v-model="row.value_raw" type="file"
-                v-model:file-list="row.value" :upload-props="{ limit: 1 }"
-                @change="() => handleUpdateConfigItemValue(row, row.value_raw)" />
-              <pro-upload v-else-if="row.type === 'files'" v-model="row.value_raw" type="file"
-                v-model:file-list="row.value" :upload-props="{ limit: 9 }"
-                @change="() => handleUpdateConfigItemValue(row, row.value_raw)" />
-              <pro-upload v-else-if="row.type === 'image'" v-model="row.value_raw" type="image"
-                v-model:file-list="row.value" :upload-props="{ limit: 1 }"
-                @change="() => handleUpdateConfigItemValue(row, row.value_raw)" />
-              <pro-upload v-else-if="row.type === 'images'" v-model="row.value_raw" type="image"
-                v-model:file-list="row.value" :upload-props="{ limit: 9 }"
-                @change="() => handleUpdateConfigItemValue(row, row.value_raw)" />
+              <el-input
+                v-if="row.type === 'text'"
+                v-model="row.value"
+                @change="() => handleUpdateConfigItemValue(row)"
+              />
+              <el-input
+                v-else-if="row.type === 'textarea'"
+                type="textarea"
+                v-model="row.value"
+                @change="() => handleUpdateConfigItemValue(row)"
+              />
+              <el-input-tag
+                v-else-if="row.type === 'tags'"
+                v-model="row.value"
+                @change="() => handleUpdateConfigItemValue(row)"
+              />
+              <el-input-number
+                v-else-if="row.type === 'number'"
+                v-model="row.value"
+                @change="() => handleUpdateConfigItemValue(row)"
+              />
+              <el-select
+                v-else-if="row.type === 'select'"
+                v-model="row.value"
+                @change="() => handleUpdateConfigItemValue(row)"
+                :options="row.options"
+              />
+              <el-checkbox-group
+                v-else-if="row.type === 'checkbox'"
+                v-model="row.value"
+                @change="() => handleUpdateConfigItemValue(row)"
+                :options="row.options"
+              />
+              <el-switch
+                v-else-if="row.type === 'switch'"
+                v-model="row.value"
+                @change="() => handleUpdateConfigItemValue(row)"
+              />
+              <pro-upload
+                v-else-if="row.type === 'file'"
+                v-model="row.value_raw"
+                type="file"
+                v-model:file-list="row.value"
+                :upload-props="{ limit: 1 }"
+                @change="() => handleUpdateConfigItemValue(row, row.value_raw)"
+              />
+              <pro-upload
+                v-else-if="row.type === 'files'"
+                v-model="row.value_raw"
+                type="file"
+                v-model:file-list="row.value"
+                :upload-props="{ limit: 9 }"
+                @change="() => handleUpdateConfigItemValue(row, row.value_raw)"
+              />
+              <pro-upload
+                v-else-if="row.type === 'image'"
+                v-model="row.value_raw"
+                type="image"
+                v-model:file-list="row.value"
+                :upload-props="{ limit: 1 }"
+                @change="() => handleUpdateConfigItemValue(row, row.value_raw)"
+              />
+              <pro-upload
+                v-else-if="row.type === 'images'"
+                v-model="row.value_raw"
+                type="image"
+                v-model:file-list="row.value"
+                :upload-props="{ limit: 9 }"
+                @change="() => handleUpdateConfigItemValue(row, row.value_raw)"
+              />
               <div v-if="row.desc" class="mt-1 text-xs text-black/40">
                 {{ row.desc }}
               </div>
@@ -68,35 +125,67 @@
           </el-table-column>
           <el-table-column fixed="right" :width="120">
             <template #default="{ row }">
-              <el-button link type="primary" @click="handleUpdateConfigItem(row)">
+              <el-button
+                link
+                type="primary"
+                @click="handleUpdateConfigItem(row)"
+              >
                 编辑
               </el-button>
-              <el-button link type="danger" @click="handleDeleteConfigItem(row.id)">删除</el-button>
+              <el-button
+                link
+                type="danger"
+                @click="handleDeleteConfigItem(row.id)"
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
-        <el-button class="mt-4 mb-3 h-9 w-full border-dashed" plain icon="Plus"
-          @click="handleCreateConfigItem">新增配置</el-button>
+        <el-button
+          class="mt-4 mb-3 h-9 w-full border-dashed"
+          plain
+          icon="Plus"
+          @click="handleCreateConfigItem"
+          >新增配置</el-button
+        >
       </div>
     </el-card>
-    <el-card class="basis-100 overflow-auto" body-class="flex flex-wrap" shadow="never">
+    <el-card
+      class="basis-100 overflow-auto"
+      body-class="flex flex-wrap content-start"
+      shadow="never"
+    >
       <div class="mb-4">
-        <el-button icon="Plus" type="primary" @click="handleCreateConfigGroup">新增配置组</el-button>
+        <el-button icon="Plus" type="primary" @click="handleCreateConfigGroup"
+          >新增配置组</el-button
+        >
       </div>
-      <pro-table :request="getConfigGroupPaginationApi" ref="configGroupTableRef">
+      <pro-table
+        :request="getConfigGroupPaginationApi"
+        ref="configGroupTableRef"
+      >
         <el-table-column prop="key" label="配置组键" />
         <el-table-column prop="name" label="配置组名称" />
         <el-table-column label="操作" fixed="right" :width="110">
           <template #default="{ row }">
             <action-group>
               <action-item>
-                <el-button link type="primary" @click="handleUpdateConfigGroup(row)">
+                <el-button
+                  link
+                  type="primary"
+                  @click="handleUpdateConfigGroup(row)"
+                >
                   编辑
                 </el-button>
               </action-item>
               <action-item>
-                <el-button link type="primary" :disabled="!!row.is_top"
-                  @click="handleDeleteConfigGroup(row.id)">删除</el-button>
+                <el-button
+                  link
+                  type="primary"
+                  :disabled="!!row.is_top"
+                  @click="handleDeleteConfigGroup(row.id)"
+                  >删除</el-button
+                >
               </action-item>
             </action-group>
           </template>
@@ -104,10 +193,19 @@
       </pro-table>
     </el-card>
   </div>
-  <config-group-form :mode="configGroupMode" :id="configGroupEditId" v-model:visible="configGroupFormVisible"
-    @finished="handleConfigGroupFinished" />
-  <config-item-form :mode="configItemMode" :id="configItemEditId" v-model:visible="configItemFormVisible"
-    :group-id="currentConfigGroupId" @finished="refreshConfigItemList" />
+  <config-group-form
+    :mode="configGroupMode"
+    :id="configGroupEditId"
+    v-model:visible="configGroupFormVisible"
+    @finished="handleConfigGroupFinished"
+  />
+  <config-item-form
+    :mode="configItemMode"
+    :id="configItemEditId"
+    v-model:visible="configItemFormVisible"
+    :group-id="currentConfigGroupId"
+    @finished="refreshConfigItemList"
+  />
 </template>
 
 <script setup lang="ts">
@@ -201,7 +299,11 @@ const refreshConfigItemList = () => {
 };
 
 const currentConfigGroupId = ref();
-const { data: configGroupList, loading: configGroupListLoading, run: runConfigGroupList } = useRequest(getConfigGroupListApi, {
+const {
+  data: configGroupList,
+  loading: configGroupListLoading,
+  run: runConfigGroupList,
+} = useRequest(getConfigGroupListApi, {
   onSuccess: (res) => {
     currentConfigGroupId.value = res[0]?.id;
   },
@@ -219,7 +321,10 @@ watch(currentConfigGroupId, (val) => {
   runConfigItemList({ group_id: val });
 });
 
-const handleUpdateConfigItemValue = (item: ConfigItem, value: any = item.value) => {
+const handleUpdateConfigItemValue = (
+  item: ConfigItem,
+  value: any = item.value,
+) => {
   updateConfigItemValueApi({
     id: item.id,
     type: item.type,
