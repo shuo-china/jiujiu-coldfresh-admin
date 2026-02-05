@@ -58,6 +58,21 @@ export const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: "/driver",
+    component: AdminLayout,
+    children: [
+      {
+        path: "",
+        name: "Driver",
+        component: () => import("@/pages/driver/index.vue"),
+        meta: {
+          title: "司机列表",
+          icon: "User",
+        },
+      },
+    ],
+  },
+  {
     path: "/setting",
     component: AdminLayout,
     redirect: "/setting/manager",
