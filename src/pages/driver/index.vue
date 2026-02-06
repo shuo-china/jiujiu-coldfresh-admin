@@ -1,12 +1,11 @@
 <template>
   <page>
     <div class="mb-4">
-      <el-button icon="Plus" type="primary" @click="handleCreate"
-        >新增司机</el-button
-      >
+      <el-button icon="Plus" type="primary" @click="handleCreate">新增司机</el-button>
     </div>
     <pro-table ref="tableRef" :request="getDriverPaginationApi">
       <el-table-column label="姓名" prop="name" />
+      <el-table-column label="手机号" prop="mobile" />
       <el-table-column label="操作" fixed="right" :width="170">
         <template #default="{ row }">
           <action-group>
@@ -16,20 +15,13 @@
               </el-button>
             </action-item>
             <action-item>
-              <el-button link type="primary" @click="handleDelete(row.id)"
-                >删除</el-button
-              >
+              <el-button link type="primary" @click="handleDelete(row.id)">删除</el-button>
             </action-item>
           </action-group>
         </template>
       </el-table-column>
     </pro-table>
-    <driver-form
-      v-model:visible="formVisible"
-      :id="id"
-      :mode="mode"
-      @finished="tableRef?.refresh()"
-    />
+    <driver-form v-model:visible="formVisible" :id="id" :mode="mode" @finished="tableRef?.refresh()" />
   </page>
 </template>
 

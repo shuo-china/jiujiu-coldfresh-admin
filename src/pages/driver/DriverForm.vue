@@ -1,30 +1,11 @@
 <template>
-  <dialog-form
-    v-model:visible="visible"
-    :form-props="{ model: formData, rules }"
-    :params="id"
-    :request="mode === 'update' ? getDetailInfo : undefined"
-    @submit="handleSubmit"
-  >
+  <dialog-form v-model:visible="visible" :form-props="{ model: formData, rules }" :params="id"
+    :request="mode === 'update' ? getDetailInfo : undefined" @submit="handleSubmit">
     <el-form-item label="姓名" prop="name">
       <el-input v-model="formData.name" />
     </el-form-item>
     <el-form-item label="手机号" prop="mobile">
       <el-input v-model="formData.mobile" />
-    </el-form-item>
-    <el-form-item label="车辆" prop="vehicle_id">
-      <el-select
-        v-model="formData.vehicle_id"
-        :options="vehicleOptions"
-        :loading="vehicleOptionsLoading"
-      />
-    </el-form-item>
-    <el-form-item label="目的地" prop="dest">
-      <el-select
-        v-model="formData.dest_value"
-        :options="dict.dest"
-        :loading="dictLoading"
-      />
     </el-form-item>
   </dialog-form>
 </template>
@@ -35,9 +16,7 @@ import {
   updateDriverApi,
   getDriverDetailApi,
 } from "@/api/driver";
-import { getVehicleOptionsApi } from "@/api/vehicle";
-import useDict from "@/hooks/useDict";
-import useRequest from "@/hooks/useRequest";
+
 import { ElMessage, type FormRules } from "element-plus";
 
 const emit = defineEmits(["created", "updated", "finished"]);
@@ -46,11 +25,6 @@ const props = defineProps<{
   mode: "create" | "update";
   id?: number;
 }>();
-
-const { dict, dictLoading } = useDict(["dest"]);
-
-const { loading: vehicleOptionsLoading, data: vehicleOptions } =
-  useRequest(getVehicleOptionsApi);
 
 const visible = defineModel("visible", { type: Boolean, default: false });
 
